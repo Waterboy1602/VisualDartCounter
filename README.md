@@ -7,14 +7,17 @@ Start (11-10-2021)
 Opstarten van het project  
 - [x] Aanmaken van een Git repository.  
 - [x] Informatie opzoeken over opencv-python
-- [ ] Beeldmateriaal verzamelen  
-- [ ] Planning opstellen
+- [x] Beeldmateriaal verzamelen  
+- [x] Planning opstellen
 
 ### Week 43-44:
 Maken van een eerste versie die een afbeelding van een dartbord kan uitlezen. Puntenregio's vastleggen.  
 Vervolgens bollen aanbrengen op het dartbord die de pijltjes voorstellen.   
 Punten samenstellen
-- [ ] Code vormgeven
+- [x] Code vormgeven
+- [x] Ellipsen/cirkels herkennen/vinden
+- [ ] Orientatie van het bord vinden
+- [ ] Puntenregio's definiëren
 
 ### Week 45-46:  
 Blauwe bollen vervangen door effectieve pijltjes. Juiste puntentelling laten maken. Nog steeds werken met afbeeldingen ipv livebeeld
@@ -37,3 +40,13 @@ Gebruik maken van een effectieve camera. Onderzoeken of 1 camera voldoende is om
 * Virtual environment aanmaken: `python -m venv ./venv`
 * VENV activeren: `source ./venv/bin/activate`
 * De nodige modules downloaden: `pip install -r ./requirements.txt`  
+
+## Info dartboard
+Double/Treble ring: 8 mm
+Bull eye: 12.7 mm
+Bull (incl Bull eye): 31.8 mm
+Center - Inside edge Treble: 107 mm
+Center - Outside edge Double: 170 mm
+Dia point area: 340 mm
+
+20 segmenten: 360°/20 = 18° || 2*PI/20 = PI/10 = 0.31415
