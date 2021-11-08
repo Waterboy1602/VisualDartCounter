@@ -42,11 +42,11 @@ Gebruik maken van een effectieve camera. Onderzoeken of 1 camera voldoende is om
 * De nodige modules downloaden: `pip install --no-cache-dir -r requirements.txt --upgrade`  
 
 ## Info dartboard
-Double/Treble ring: 8 mm
-Bull eye: 12.7 mm
-Bull (incl Bull eye): 31.8 mm
-Center - Inside edge Treble: 107 mm
-Center - Outside edge Double: 170 mm
-Dia point area: 340 mm
-
-20 segmenten: 360°/20 = 18° || 2*PI/20 = PI/10 = 0.31415
+Double/Treble ring: 8 mm  
+Bull eye: 12.7 mm  
+Bull (incl Bull eye): 31.8 mm  
+Center - Inside edge Treble: 107 mm  
+Center - Outside edge Double: 170 mm  
+Dia point area: 340 mm  
+  
+20 segmenten: 360°/20 = 18° || 2*PI/20 = PI/10 = 0.31415  
