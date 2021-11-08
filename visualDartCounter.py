@@ -7,11 +7,9 @@ import math
 
 __version__ = "0.1" #Uitlezen van foto
 
-global imageSize
-
 def main():
     imageSize = 360
-    dartboardPic = './images/dartboard_small.png'
+    dartboardPic = './images/dartboard.png'
     image = cv2.imread(dartboardPic, cv2.IMREAD_COLOR)
     image = imutils.resize(image, width=imageSize)
     imgHSV = cv2.cvtColor(image, cv2.COLOR_RGB2HSV)
@@ -29,15 +27,7 @@ def main():
     #Afbeelding naar twee waarden converteren
     OTSUThreshVal, threshImg = cv2.threshold(vImg, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
     cv2.imshow("thresh", threshImg)
-
-    '''
-    # removes border wire outside the outerellipse
-    kernel = np.ones((5, 5), np.uint8)
-    thresh2 = cv2.morphologyEx(threshImg, cv2.MORPH_CLOSE,kernel)
     
-    cv2.imshow("thresh2", thresh2)
-    '''
-
     edgedImg = cv2.Canny(threshImg, OTSUThreshVal, 0.5*OTSUThreshVal)
     cv2.imshow("canny", edgedImg)
 
@@ -46,7 +36,7 @@ def main():
 
     for cnt in contours:
         try:
-            if imageSize*imageSize*0.25 < cv2.contourArea(cnt) < imageSize*imageSize:
+            if imageSize*imageSize*0.1 < cv2.contourArea(cnt) < imageSize*imageSize:
                 ellipse = cv2.fitEllipse(cnt)
                 cv2.ellipse(image, ellipse, (0, 255, 0), cv2.LINE_4)
 
@@ -60,8 +50,29 @@ def main():
                 b = b/2
         except:
             pass
-        
+
     cv2.imshow("test_ellips", image)
+
+    # Vind sectie lijnen/grenzen
+    rho = 1  # distance resolution in pixels of the Hough grid
+    theta = np.pi / 180  # angular resolution in radians of the Hough grid
+    threshold = 15  # minimum number of votes (intersections in Hough grid cell)
+    min_line_length = 50  # minimum number of pixels making up a line
+    max_line_gap = 20  # maximum gap in pixels between connectable line segments
+    line_image = np.copy(image) * 0  # creating a blank to draw lines on
+
+    # Run Hough on edge detected image
+    # Output "lines" is an array containing endpoints of detected line segments
+    lines = cv2.HoughLinesP(edgedImg, rho, theta, threshold, np.array([]),
+                        min_line_length, max_line_gap)
+
+    #lines = cv2.HoughLines(edgedImg, 1, np.pi / 180, 100, 100)
+    for line in lines:
+        for x1,y1,x2,y2 in line:
+            cv2.line(line_image,(x1,y1),(x2,y2),(255,0,0),5)
+
+    lines_edges = cv2.addWeighted(image, 0.8, line_image, 1, 0)
+    cv2.imshow("test_lines", lines_edges)
 
     pointAreas(image)
 
