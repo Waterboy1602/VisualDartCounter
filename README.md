@@ -38,8 +38,8 @@ Gebruik maken van een effectieve camera. Onderzoeken of 1 camera voldoende is om
 
 ## Installatie  
 * Virtual environment aanmaken: `python -m venv ./venv`
-* VENV activeren: `source ./venv/bin/activate`
-* De nodige modules downloaden: `pip install -r ./requirements.txt`  
+* VENV activeren: `.\venv\Scripts\activate`
+* De nodige modules downloaden: `pip install --no-cache-dir -r requirements.txt --upgrade`  
 
 ## Info dartboard
 Double/Treble ring: 8 mm
