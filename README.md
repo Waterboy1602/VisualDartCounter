@@ -10,32 +10,33 @@ Opstarten van het project
 - [x] Beeldmateriaal verzamelen  
 - [x] Planning opstellen
 
-### Week 43-44:
+### Week 43-44-45:
 Maken van een eerste versie die een afbeelding van een dartbord kan uitlezen. Puntenregio's vastleggen.  
 Vervolgens bollen aanbrengen op het dartbord die de pijltjes voorstellen.   
 Punten samenstellen
 - [x] Code vormgeven
 - [x] Ellipsen/cirkels herkennen/vinden
-- [ ] Orientatie van het bord vinden
-- [ ] Puntenregio's definiëren
+- [x] Orientatie van het bord vinden (15/11)  
+- [x] Puntenregio's definiëren (15/11)  
 
-### Week 45-46:  
-Blauwe bollen vervangen door effectieve pijltjes. Juiste puntentelling laten maken. Nog steeds werken met afbeeldingen ipv livebeeld
-- [ ] Nieuw beeldmateriaal verzamelen/aanmaken
-- [ ] Code uitbreiden zodat het werkt met pijltjes ipv bollen
-  
-### Week 47-48:
+### Week 46-47:  
+Blauwe bollen/vierkanten op het dartbord aanbrengen als dartpijlen. De *fake* dartpijlen herkennen en punten tellen.
+- [ ] Beeldmateriaal aanmaken met *fake* pijltjes
+- [ ] Code uitbreiden zodat het werkt met bollen/vierkanten
+- [ ] Punten van een worp optellen
+### Week XX-XX:
 Gebruik maken van een effectieve camera. Onderzoeken of 1 camera voldoende is om een accurate puntentelling te verkrijgen. 
 - [ ] Afbeeldingen vervangen door livebeeld van een camera
 - [ ] Code verder uitwerken
-
-### Week 49-50
+### Week XX-XX
 - [ ] GUI ontwerpen. 
 - [ ] Verder op punt zetten van de nauwkeurigheid
 
 ## Bibliotheken  
 * Opencv-python  
 
+## Documentatie
+Documentatie over OpenCV terug te vinden in [OpenCV.md](opencv.md).
 ## Installatie  
 * Virtual environment aanmaken: `python -m venv ./venv`
 * VENV activeren: `.\venv\Scripts\activate`
@@ -54,3 +55,6 @@ Straal point area: 170 mm
 Straal totale bord: 225 mm  
   
 20 segmenten: 360°/20 = 18° || 2*PI/20 = PI/10 = 0.31415  
+
+
+(Laatste update: 15/11/'21)
