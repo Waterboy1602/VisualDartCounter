@@ -47,7 +47,10 @@ Bull eye: 12.7 mm
 Bull (incl Bull eye): 31.8 mm  
 Center - Inside edge Treble: 107 mm  
 Center - Outside edge Double: 170 mm  
-Diameter point area: 340 mm  
-Diameter totale bord: 451 mm
+Diameter point area: 340 mm 
+Diameter totale bord: 451 mm  
+  
+Straal point area: 170 mm   
+Straal totale bord: 225 mm  
   
 20 segmenten: 360°/20 = 18° || 2*PI/20 = PI/10 = 0.31415  
