@@ -57,7 +57,7 @@ def calibrate(imagePath):
     theta = np.pi / 180  # angular resolution in radians of the Hough grid
     threshold = 15  # minimum number of votes (intersections in Hough grid cell)
     min_line_length = 50  # minimum number of pixels making up a line
-    max_line_gap = 0.1*imageSize  # maximum gap in pixels between connectable line segments
+    max_line_gap = 0.15*imageSize  # maximum gap in pixels between connectable line segments
     line_image = np.copy(image) * 0  # creating a blank to draw lines on
 
     # Run Hough on edge detected image
@@ -126,7 +126,7 @@ def pointAreas(image, horizLines, usefullLines, omtrekBord):
             x, y = draai((centerBordX, centerBordY), (x9, y9), i*segmentCirkel)
             coordinaten.append([x, y])
 
-        #Linkerlijn van het vak
+        # Met de klok mee - [6] = 1ste lijn tussen 6/10
         puntVak[6] = coordinaten[0]
         puntVak[10] = coordinaten[1]
         puntVak[15] = coordinaten[2]
