@@ -21,9 +21,9 @@ Punten samenstellen
 
 ### Week 46-47:  
 Blauwe bollen/vierkanten op het dartbord aanbrengen als dartpijlen. De *fake* dartpijlen herkennen en punten tellen.
-- [ ] Beeldmateriaal aanmaken met *fake* pijltjes
-- [ ] Code uitbreiden zodat het werkt met bollen/vierkanten
-- [ ] Punten van een worp optellen
+- [x] Beeldmateriaal aanmaken met *fake* pijltjes
+- [x] Code uitbreiden zodat het werkt met blauwe vierkanten
+- [x] Punten van een worp optellen
 ### Week XX-XX:
 Gebruik maken van een effectieve camera. Onderzoeken of 1 camera voldoende is om een accurate puntentelling te verkrijgen. 
 - [ ] Afbeeldingen vervangen door livebeeld van een camera
@@ -63,4 +63,4 @@ Straal totale bord: 225 mm
 * Puntcoordinaten worden WEL bepaald vanuit nulpunt afbeelding
 
 
-(Laatste update: 15/11/'21)
+(Laatste update: 30/11/'21)
