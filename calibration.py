@@ -4,7 +4,7 @@ import numpy as np
 import math
 import statistics
 
-from common import cart2pol, lengteLijn, pol2cart, snijpuntLijn, afstandLijnPunt, draai
+from common import lengthLine, distLinePoint, rotate
 
 def calibrate(imagePath):
     imageSize = 360
@@ -20,10 +20,10 @@ def calibrate(imagePath):
 
     #Afbeelding naar twee waarden converteren
     OTSUThreshVal, threshImg = cv2.threshold(vImg, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-    cv2.imshow("thresh", threshImg)
+    #cv2.imshow("thresh", threshImg)
     
     edgedImg = cv2.Canny(threshImg, OTSUThreshVal, 0.5*OTSUThreshVal)
-    cv2.imshow("canny", edgedImg)
+    #cv2.imshow("canny", edgedImg)
 
     # Vind contouren op de afbeelding
     contours, hierarchy = cv2.findContours(threshImg, cv2.RETR_LIST,  cv2.CHAIN_APPROX_SIMPLE)
@@ -48,7 +48,7 @@ def calibrate(imagePath):
         except:
             pass
 
-    cv2.ellipse(image, omtrekBord, (0, 255, 0), cv2.LINE_4)
+    #cv2.ellipse(image, omtrekBord, (0, 255, 0), cv2.LINE_4)
 
     
 
@@ -70,9 +70,9 @@ def calibrate(imagePath):
         for x1,y1,x2,y2 in line:
             p1 = [x1, y1]
             p2 = [x2, y2]
-            if lengteLijn(p1, p2) < 0.6*diameter: # Lengte lijnstuk 80% van de dartboard diameter bedraagt 
+            if lengthLine(p1, p2) < 0.6*diameter: # Lengte lijnstuk 80% van de dartboard diameter bedraagt 
                 continue
-            if afstandLijnPunt((p1, p2), center_ellipse) > 0.15*imageSize: # Lijn voldoende dicht bij center
+            if distLinePoint((p1, p2), center_ellipse) > 0.15*imageSize: # Lijn voldoende dicht bij center
                 continue
             usefullLines.append([x1,y1,x2,y2])
 
@@ -83,16 +83,18 @@ def calibrate(imagePath):
                 cv2.line(line_image, (x1,y1), (x2,y2), (0,0,255), 3)
 
     lines_edges = cv2.addWeighted(image, 0.8, line_image, 1, 0)
-    cv2.imshow("test_lines", lines_edges)
+    #cv2.imshow("test_lines", lines_edges)
 
-    pointAreas(image, horizLines, usefullLines, omtrekBord)
+    pointAreas = getPointAreas(image, horizLines, usefullLines, omtrekBord)
 
     cv2.imshow("punten", image)
 
-    cv2.waitKey(0)
+    cv2.waitKey(0)  
     cv2.destroyAllWindows()
+    
+    return pointAreas
 
-def pointAreas(image, horizLines, usefullLines, omtrekBord):        
+def getPointAreas(image, horizLines, usefullLines, omtrekBord):        
     centerBordX, centerBordY = omtrekBord[0]
     bordStraal = statistics.mean(omtrekBord[1]) / 2
     
@@ -111,42 +113,55 @@ def pointAreas(image, horizLines, usefullLines, omtrekBord):
     cv2.circle(image, (int(centerBordX), int(centerBordY)), int(bullStraal), (0, 255, 0), thickness=1, lineType=8)
     cv2.circle(image, (int(centerBordX), int(centerBordY)), int(bullEyeStraal), (0, 255, 0), thickness=1, lineType=8)
 
-    straal = [bordStraal, doubleBuitenStraal, doubleBinnenStraal, trebleBuitenstraal, trebleBinnenStraal, bullStraal, bullEyeStraal]
+    straal = {"center":[centerBordX, centerBordY], "bord":bordStraal, 
+            "doubleBuiten":doubleBuitenStraal, "doubleBinnen":doubleBinnenStraal, 
+            "trebleBuiten":trebleBuitenstraal, "trebleBinnen":trebleBinnenStraal, 
+            "bull":bullStraal, "bullEye":bullEyeStraal}
 
     puntVak = {}
 
     if len(horizLines) >=2:
-        x9, y9 = 0, 0
+        x10, y11 = 0, 0
         for point in horizLines:
-            x9 = max(horizLines[0][0], horizLines[0][2], x9)
-            y9 = max(horizLines[0][1], horizLines[0][3], y9)
+            x10 = max(horizLines[0][0], horizLines[0][2], x10)
+            y11 = max(horizLines[0][1], horizLines[0][3], y11)
         coordinaten = []
         segmentCirkel = 2 * math.pi / 20
         for i in range(20):
-            x, y = draai((centerBordX, centerBordY), (x9, y9), i*segmentCirkel)
+            x, y = rotate((centerBordX, centerBordY), (x10, y11), i*segmentCirkel)
             coordinaten.append([x, y])
 
-        # Met de klok mee - [6] = 1ste lijn tussen 6/10
-        puntVak[6] = coordinaten[0]
-        puntVak[10] = coordinaten[1]
-        puntVak[15] = coordinaten[2]
-        puntVak[2] = coordinaten[3]
-        puntVak[17] = coordinaten[4]
-        puntVak[3] = coordinaten[5]
-        puntVak[19] = coordinaten[6]
-        puntVak[7] = coordinaten[7]
-        puntVak[16] = coordinaten[8]
-        puntVak[8] = coordinaten[9]
-        puntVak[11] = coordinaten[10]
-        puntVak[14] = coordinaten[11]
-        puntVak[9] = coordinaten[12]
-        puntVak[12] = coordinaten[13]
-        puntVak[5] = coordinaten[14]
-        puntVak[20] = coordinaten[15]
-        puntVak[1] = coordinaten[16]
-        puntVak[18] = coordinaten[17]
-        puntVak[4] = coordinaten[18]
-        puntVak[13] = coordinaten[19]
-
+        # Met de klok mee - [10] = 1ste lijn tussen 6/10
+        puntVak[10] = coordinaten[0]
+        puntVak[15] = coordinaten[1]
+        puntVak[2] = coordinaten[2]
+        puntVak[17] = coordinaten[3]
+        puntVak[3] = coordinaten[4]
+        puntVak[19] = coordinaten[5]
+        puntVak[7] = coordinaten[6]
+        puntVak[16] = coordinaten[7]
+        puntVak[8] = coordinaten[8]
+        puntVak[11] = coordinaten[9]
+        puntVak[14] = coordinaten[10]
+        puntVak[9] = coordinaten[11]
+        puntVak[12] = coordinaten[12]
+        puntVak[5] = coordinaten[13]
+        puntVak[20] = coordinaten[14]
+        puntVak[1] = coordinaten[15]
+        puntVak[18] = coordinaten[16]
+        puntVak[4] = coordinaten[17]
+        puntVak[13] = coordinaten[18]
+        puntVak[6] = coordinaten[19]
+        
         for key in puntVak:
             cv2.line(image, (int(centerBordX), int(centerBordY)), (int(puntVak[key][0]), int(puntVak[key][1])), (0,0,255), 2)
+
+    #ToDo als slechts 1 horizLine gevonden is
+    if len(horizLines) == 1:
+        pass
+
+    punten = [10, 15, 2, 17, 3, 19, 7, 16, 8, 11, 14, 9, 12, 5, 20, 1, 18, 4, 13, 6]
+
+    #pointAreas = {"straal":straal, "punten":puntVak, "coordinaten":coordinaten}
+    pointAreas = {"straal":straal, "punten":punten, "coordinaten":coordinaten}
+    return pointAreas

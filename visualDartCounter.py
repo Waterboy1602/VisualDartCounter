@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 from calibration import calibrate
 from points import point
+import cv2
 
 
 __version__ = "0.1" #Uitlezen van foto
 
 def main():
-    puntenregio = calibrate("./images/dartboard.png")
+    pointAreas = calibrate("./images/dartboard.png")
     print("41")
     print("Totaal " + str(point("./images/dartboard_41.png", pointAreas)))
     print("75")
@@ -15,7 +16,7 @@ def main():
     print("Totaal " + str(point("./images/dartboard_63.png", pointAreas)))
 
 
-    puntenregio = calibrate("./images/dartboard2.png")
+    pointAreas = calibrate("./images/dartboard2.png")
 
 if __name__ == "__main__":
     main()

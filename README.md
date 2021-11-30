@@ -56,5 +56,11 @@ Straal totale bord: 225 mm
   
 20 segmenten: 360°/20 = 18° || 2*PI/20 = PI/10 = 0.31415  
 
+## Opmerkingen
+* Straal wordt meegegeven vanuit het center van het bord, dus NIET vanuit nulpunt afbeelding.  
+--> Aanpassen door coordinaat van Dart te verschuiven
+
+* Puntcoordinaten worden WEL bepaald vanuit nulpunt afbeelding
+
 
 (Laatste update: 15/11/'21)

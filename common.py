@@ -2,9 +2,9 @@ import math
 import numpy as np
 from numpy.linalg import norm
 
-def snijpuntLijn(lijn1, lijn2): # snijpuntLijn((A, B), (C, D))
-    xdiff = (lijn1[0][0] - lijn1[1][0], lijn2[0][0] - lijn2[1][0])
-    ydiff = (lijn1[0][1] - lijn1[1][1], lijn2[0][1] - lijn2[1][1])
+def intersectLine(line1, line2): # snijpuntLijn((A, B), (C, D))
+    xdiff = (line1[0][0] - line1[1][0], line2[0][0] - line2[1][0])
+    ydiff = (line1[0][1] - line1[1][1], line2[0][1] - line2[1][1])
 
     def det(a, b):
         return a[0] * b[1] - a[1] * b[0]
@@ -13,25 +13,27 @@ def snijpuntLijn(lijn1, lijn2): # snijpuntLijn((A, B), (C, D))
     if div == 0:
        raise Exception('lines do not intersect')
 
-    d = (det(*lijn1), det(*lijn2))
-    snijX = det(d, xdiff) / div
-    snijY = det(d, ydiff) / div
-    return snijX, snijY
+    d = (det(*line1), det(*line2))
+    intersectX = det(d, xdiff) / div
+    intersectY = det(d, ydiff) / div
+    return intersectX, intersectY
 
-def lengteLijn(p1, p2):
-    lengte = math.sqrt((p2[0]-p1[0])*(p2[0]-p1[0]) + (p2[1]-p1[1])*(p2[1]-p1[1]))
-    return lengte
+def lengthLine(p1, p2):
+    length = math.sqrt((p2[0]-p1[0])*(p2[0]-p1[0]) + (p2[1]-p1[1])*(p2[1]-p1[1]))
+    return length
 
-def afstandLijnPunt(lijn, punt):
-    puntL1 = np.asarray(lijn[0])
-    puntL2 = np.asarray(lijn[1])
-    punt = np.asarray(punt)
-    afstand = norm(np.cross(puntL2-puntL1, puntL1-punt))/norm(puntL2-puntL1)
-    return afstand
+def distLinePoint(line, point):
+    pointL1 = np.asarray(line[0])
+    pointL2 = np.asarray(line[1])
+    point = np.asarray(point)
+    dist = norm(np.cross(pointL2-pointL1, pointL1-point))/norm(pointL2-pointL1)
+    return dist
 
 def cart2pol(x, y):
     rho = np.sqrt(x**2 + y**2)
     phi = np.arctan2(y, x)
+    if phi < 0: # 0 < phi < 2pi 
+        phi += (2*np.pi)
     return rho, phi
 
 def pol2cart(rho, phi):
@@ -39,10 +41,18 @@ def pol2cart(rho, phi):
     y = rho * np.sin(phi)
     return x, y
 
-def draai(center, punt, rad):
+def rotate(center, point, rad):
     centerX, centerY = center
-    puntX, puntY = punt
+    pointX, pointY = point
 
-    x = centerX + math.cos(rad) * (puntX - centerX) - math.sin(rad) * (puntY - centerY)
-    y = centerY + math.sin(rad) * (puntX - centerX) + math.cos(rad) * (puntY - centerY)
+    x = centerX + math.cos(rad) * (pointX - centerX) - math.sin(rad) * (pointY - centerY)
+    y = centerY + math.sin(rad) * (pointX - centerX) + math.cos(rad) * (pointY - centerY)
+    return x, y
+
+def changeOrigin(point, center):
+    pointX, pointY = point
+    centerX, centerY = center
+
+    x = pointX - centerX
+    y = centerY - pointY
     return x, y
