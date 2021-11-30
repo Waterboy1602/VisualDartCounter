@@ -8,11 +8,11 @@ __version__ = "0.1" #Uitlezen van foto
 def main():
     puntenregio = calibrate("./images/dartboard.png")
     print("41")
-    print(point("./images/dartboard_41.png", puntenregio))
-    print("57")
-    print(point("./images/dartboard_57.png", puntenregio))
-    print("66")
-    print(point("./images/dartboard_66.png", puntenregio))
+    print("Totaal " + str(point("./images/dartboard_41.png", pointAreas)))
+    print("75")
+    print("Totaal " + str(point("./images/dartboard_75.png", pointAreas)))
+    print("63")
+    print("Totaal " + str(point("./images/dartboard_63.png", pointAreas)))
 
 
     puntenregio = calibrate("./images/dartboard2.png")
