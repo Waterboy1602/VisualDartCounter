@@ -14,7 +14,10 @@ def main():
     print("Totaal " + str(point("./images/dartboard_75.png", pointAreas)))
     print("63")
     print("Totaal " + str(point("./images/dartboard_63.png", pointAreas)))
-
+    print("46")
+    print("Totaal " + str(point("./images/dartboard_46.png", pointAreas)))
+    print("20")
+    print("Totaal " + str(point("./images/dartboard_20.png", pointAreas)))
 
     pointAreas = calibrate("./images/dartboard2.png")
 
