@@ -64,13 +64,13 @@ def point(imagePath, pointAreas):
                     rhoCC, phiCC = cart2pol(pointBorderOriginBoard2[0], pointBorderOriginBoard2[1])
                     if phiDartOriginBoard <= phiC and phiDartOriginBoard >= phiCC:
                         points = pointAreas["punten"][i]
-                        pass
+                        break
                 else:
                     x, y = changeOrigin(pointAreas["coordinaten"][0], pointAreas["straal"]["center"])
                     pointBorderOriginBord0 = [x, y]
                     rhoC, phiC = cart2pol(pointBorderOriginBoard1[0], pointBorderOriginBoard1[1])
                     rhoCC, phiCC = cart2pol(pointBorderOriginBord0[0], pointBorderOriginBord0[1])
-                    if phiDartOriginBoard <= phiC and phiDartOriginBoard >= phiCC:
+                    if phiDartOriginBoard <= phiC or phiDartOriginBoard >= phiCC:
                         points = pointAreas["punten"][i]
 
             if double:
