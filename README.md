@@ -19,11 +19,25 @@ Punten samenstellen
 - [x] Orientatie van het bord vinden (15/11)  
 - [x] Puntenregio's definiëren (15/11)  
 
+<<<<<<< Updated upstream
 ### Week 46-47:  
 Blauwe bollen/vierkanten op het dartbord aanbrengen als dartpijlen. De *fake* dartpijlen herkennen en punten tellen.
 - [ ] Beeldmateriaal aanmaken met *fake* pijltjes
 - [ ] Code uitbreiden zodat het werkt met bollen/vierkanten
 - [ ] Punten van een worp optellen
+=======
+### Week 46-48:  
+Blauwe vierkanten op het dartbord aanbrengen als dartpijlen. De *fake* dartpijlen herkennen en punten tellen.
+- [x] Beeldmateriaal aanmaken met *fake* pijltjes
+- [x] Code uitbreiden zodat het werkt met blauwe vierkanten
+- [x] Punten van een worp optellen
+### Week 48-50:  
+Uitgebreider testen met de blauwe vierkanten als dartpijl. Daarna blauwe vierkanten vervangen door effectieve dartpijlen
+- [ ] Extra beeldmateriaal aanmaken met *fake* pijltjes
+- [ ] Beeldmateriaal verzamelen met *echte* dartpijlen
+- [ ] Code uitbreiden zodat de *echte* dartpijlen herkend worden
+- [ ] Exacte plaats van de dartpijl bepalen
+>>>>>>> Stashed changes
 ### Week XX-XX:
 Gebruik maken van een effectieve camera. Onderzoeken of 1 camera voldoende is om een accurate puntentelling te verkrijgen. 
 - [ ] Afbeeldingen vervangen door livebeeld van een camera
