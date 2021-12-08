@@ -10,7 +10,7 @@ def calibrate(imagePath):
     imageSize = 360
     image = cv2.imread(imagePath, cv2.IMREAD_COLOR)
     image = imutils.resize(image, width=imageSize)
-    imgHSV = cv2.cvtColor(image, cv2.COLOR_RGB2HSV)
+    imgHSV = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
     #Afbeelding blur
     blur = cv2.blur(imgHSV, ksize=(5,5))
