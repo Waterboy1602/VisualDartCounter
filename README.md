@@ -26,7 +26,7 @@ Blauwe vierkanten op het dartbord aanbrengen als dartpijlen. De *fake* dartpijle
 ### Week 48-50:  
 Uitgebreider testen met de blauwe vierkanten als dartpijl. Daarna blauwe vierkanten vervangen door effectieve dartpijlen
 - [x] Extra beeldmateriaal aanmaken met *fake* pijltjes
-- [ ] Beeldmateriaal verzamelen met *echte* dartpijlen
+- [x] Beeldmateriaal verzamelen met *echte* dartpijlen
 - [ ] Code uitbreiden zodat de *echte* dartpijlen herkend worden
 - [ ] Exacte plaats van de dartpijl bepalen
 ### Week XX-XX:
@@ -68,4 +68,4 @@ Straal totale bord: 225 mm
 * Puntcoordinaten worden WEL bepaald vanuit nulpunt afbeelding
 
 
-(Laatste update: 30/11/'21)
+(Laatste update: 21/12/'21)
