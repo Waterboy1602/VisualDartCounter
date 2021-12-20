@@ -16,7 +16,7 @@ def calibrate(imagePath):
     blur = cv2.blur(imgHSV, ksize=(5,5))
 
     # Opsplitsen op basis van HSV waarden: verder werken met de Value
-    hImg, sImg, vImg = cv2.split(blur)
+    _, _, vImg = cv2.split(blur)
 
     #Afbeelding naar twee waarden converteren
     OTSUThreshVal, threshImg = cv2.threshold(vImg, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
@@ -26,7 +26,7 @@ def calibrate(imagePath):
     #cv2.imshow("canny", edgedImg)
 
     # Vind contouren op de afbeelding
-    contours, hierarchy = cv2.findContours(threshImg, cv2.RETR_LIST,  cv2.CHAIN_APPROX_SIMPLE)
+    contours, _ = cv2.findContours(threshImg, cv2.RETR_LIST,  cv2.CHAIN_APPROX_SIMPLE)
 
     diameter = 0
     omtrekBord = []
