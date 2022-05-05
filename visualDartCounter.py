@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 from calibration import calibrate
 from points import point
-from darts import recognizeDarts
+from darts import recognizeDarts, recognizeDarts2
+from camera import recognizeDartsCam
 
 
 __version__ = "0.1" #Uitlezen van foto
@@ -22,7 +23,7 @@ def main():
     pointAreas = calibrate("./images/dartboard2.png") """
 
     recognizeDarts2("./images/board_without_darts.png", "./images/board_with_darts")
-    recognizeDarts("./images/board_without_darts.png", "./images/board_with_darts.png")
+    #recognizeDartsCam("./images/Darts_Thrown_Short.mp4")
 
 if __name__ == "__main__":
     main()
