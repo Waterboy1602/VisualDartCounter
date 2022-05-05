@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-from calibration import calibrate
+from roundCalibration import calibrate
 from points import point
-from darts import recognizeDarts, recognizeDarts2
-from camera import recognizeDartsCam
+from staticDarts import recognizeDarts, recognizeDarts2
+from movingDarts import recognizeDartsCam
 
 
 __version__ = "0.1" #Uitlezen van foto
