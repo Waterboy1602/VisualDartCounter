@@ -20,7 +20,7 @@ def point(imagePath, pointAreas):
     cv2.imshow("blue", img_blue)
 
     # Find contours on image
-    contours, hierarchy = cv2.findContours(img_blue, cv2.RETR_LIST,  cv2.CHAIN_APPROX_SIMPLE)
+    contours, _ = cv2.findContours(img_blue, cv2.RETR_LIST,  cv2.CHAIN_APPROX_SIMPLE)
     dartLoc = []
     for cnt in contours:
         x,y,w,h = cv2.boundingRect(cnt)
@@ -60,16 +60,16 @@ def point(imagePath, pointAreas):
                     x, y = changeOrigin(pointAreas["coordinaten"][i+1], pointAreas["straal"]["center"])
                     pointBorderOriginBoard2 = [x, y]
 
-                    rhoC, phiC = cart2pol(pointBorderOriginBoard1[0], pointBorderOriginBoard1[1])
-                    rhoCC, phiCC = cart2pol(pointBorderOriginBoard2[0], pointBorderOriginBoard2[1])
+                    _, phiC = cart2pol(pointBorderOriginBoard1[0], pointBorderOriginBoard1[1])
+                    _, phiCC = cart2pol(pointBorderOriginBoard2[0], pointBorderOriginBoard2[1])
                     if phiDartOriginBoard <= phiC and phiDartOriginBoard >= phiCC:
                         points = pointAreas["punten"][i]
                         break
                 else:
                     x, y = changeOrigin(pointAreas["coordinaten"][0], pointAreas["straal"]["center"])
                     pointBorderOriginBord0 = [x, y]
-                    rhoC, phiC = cart2pol(pointBorderOriginBoard1[0], pointBorderOriginBoard1[1])
-                    rhoCC, phiCC = cart2pol(pointBorderOriginBord0[0], pointBorderOriginBord0[1])
+                    _, phiC = cart2pol(pointBorderOriginBoard1[0], pointBorderOriginBoard1[1])
+                    _, phiCC = cart2pol(pointBorderOriginBord0[0], pointBorderOriginBord0[1])
                     if phiDartOriginBoard <= phiC or phiDartOriginBoard >= phiCC:
                         points = pointAreas["punten"][i]
 
