@@ -21,6 +21,7 @@ def main():
 
     pointAreas = calibrate("./images/dartboard2.png") """
 
+    recognizeDarts2("./images/board_without_darts.png", "./images/board_with_darts")
     recognizeDarts("./images/board_without_darts.png", "./images/board_with_darts.png")
 
 if __name__ == "__main__":
