@@ -6,7 +6,7 @@ import statistics
 
 from common import lengthLine, distLinePoint, rotate
 
-def calibrate(imagePath):
+def roundCalibrate(imagePath):
     imageSize = 360
     image = cv2.imread(imagePath, cv2.IMREAD_COLOR)
     image = imutils.resize(image, width=imageSize)
