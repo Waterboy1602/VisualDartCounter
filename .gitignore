@@ -140,3 +140,6 @@ env/
 venv/
 .idea/
 
+# pickle-files
+pointArea
+
