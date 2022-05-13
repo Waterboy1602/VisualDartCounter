@@ -38,7 +38,7 @@ def recognizeDartsCam(videoPath, pointArea):
     frameGray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
     frameGrayLastDart = frameGray
 
-    minThresh = 300
+    minThresh = 200
     maxThresh = 1000
     dartThrown = False
     
@@ -53,10 +53,9 @@ def recognizeDartsCam(videoPath, pointArea):
         
         # framePlus = imutils.resize(framePlus, width=imageSize)
         framePlusGray = cv2.cvtColor(framePlus, cv2.COLOR_RGB2GRAY)
-        cv2.imshow("framePlus", framePlusGray)
+        cv2.imshow("framePlus", framePlus)
         
         frameDiff = cv2.absdiff(frameGray, framePlusGray)
-        cv2.imshow("frameDiff", frameDiff)
 
         #! Sleep toevoegen als met webcam
         time.sleep(0.1)
@@ -91,8 +90,9 @@ def recognizeDartsCam(videoPath, pointArea):
             framePlusGray = cv2.cvtColor(framePlus, cv2.COLOR_RGB2GRAY)
 
             frameDiff = cv2.absdiff(frameGrayLastDart, framePlusGray)
+            # cv2.imshow("frameDiff", frameDiff)
 
-            cv2.imshow("frameGrayLastDart", frameGrayLastDart)
+            # cv2.imshow("frameGrayLastDart", frameGrayLastDart)
 
             #ToDo Uitleg in doc + verstaan
             # blur = cv2.GaussianBlur(frameDiff, (5, 5), 0)
@@ -100,7 +100,7 @@ def recognizeDartsCam(videoPath, pointArea):
             blur = cv2.blur(frameDiff, ksize=(5,5))
 
 
-            _, threshImg = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+            _, threshImg = cv2.threshold(blur, 10, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
             # cv2.imshow("threshImg", threshImg)
 
             cnts = cv2.findContours(threshImg, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -116,7 +116,7 @@ def recognizeDartsCam(videoPath, pointArea):
 
 
             # goodFeaturesToTrack
-            edges = cv2.goodFeaturesToTrack(threshImg, 640, 0.008, 2, mask=None, blockSize=3, useHarrisDetector=1, k=0.08)  # k=0.08
+            edges = cv2.goodFeaturesToTrack(threshImg, 20, 0.008, 1, mask=None, blockSize=3, useHarrisDetector=1, k=0.06)  # k=0.08
             corners = np.int0(edges)
            
             threshImgFeatures = framePlus.copy()
@@ -131,12 +131,22 @@ def recognizeDartsCam(videoPath, pointArea):
             cv2.circle(threshImgFeatures, rightCorner, 4, (0,255,0), -1)
 
 
+            # Draw ellipses
+            drawEllipses = framePlus.copy()
+            cv2.ellipse(threshImgFeatures, pointArea["ellipses"][0], (0, 255, 0), thickness=2, lineType=8)
+            cv2.ellipse(threshImgFeatures, pointArea["ellipses"][1], (0, 0, 255), thickness=2, lineType=8)
+            cv2.ellipse(threshImgFeatures, pointArea["ellipses"][2], (0, 255, 0), thickness=2, lineType=8)
+            cv2.ellipse(threshImgFeatures, pointArea["ellipses"][3], (0, 0, 255), thickness=2, lineType=8)
+            cv2.ellipse(threshImgFeatures, pointArea["ellipses"][4], (0, 255, 0), thickness=2, lineType=8)
+            cv2.ellipse(threshImgFeatures, pointArea["ellipses"][5], (0, 0, 255), thickness=2, lineType=8)
+            # cv2.imshow("drawEllipses", drawEllipses)
+
             points = getPoints(rightCorner, pointArea)
             print("Worp van " + str(points) + " punten") 
 
 
             # Display the image
-            cv2.imshow('threshImgContour', threshImgContour)
+            # cv2.imshow('threshImgContour', threshImgContour)
             cv2.imshow('threshImgFeatures', threshImgFeatures)
 
 
@@ -146,10 +156,16 @@ def recognizeDartsCam(videoPath, pointArea):
             # cv2.circle(framePlus, right, 4, (0, 0, 255), -1)
             # cv2.imshow("contour", framePlus)
 
-            cv2.waitKey(0)
+            # cv2.waitKey(0)
 
         if nonZero < minThresh and dartThrown:
             dartThrown = False
+
+        if nonZero > maxThresh:
+            time.sleep(1.5)
+            ret, framePlus = cap.read()
+            framePlusGray = cv2.cvtColor(framePlus, cv2.COLOR_RGB2GRAY)
+            frameGrayLastDart = framePlusGray
 
         frameGray = framePlusGray
 
