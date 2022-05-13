@@ -1,6 +1,35 @@
 # VISUAL DART COUNTER  
-Dit is een project voortgekomen uit het vak Ingenieursbeleving 2 - EICT (B-KUL-JPI13O). Het doel is om een app te maken die de puntentelling van een dartspel automatiseert aan de hand van camera's die gericht zijn naar het dartbord. Op die manier moet de speler niet meer manueel de punten ingeven.
+Dit is een project voortgekomen uit het vak Ingenieursbeleving 2 - EICT (B-KUL-JPI13O). Het doel is om een app te maken die de puntentelling van een dartspel automatiseert aan de hand van een camera die gericht is naar het dartbord. Op die manier moet de speler niet meer manueel de punten ingeven.
 
+## Installatie  
+* Virtual environment aanmaken: `python -m venv ./venv`
+* VENV activeren: `.\venv\Scripts\activate`
+* De nodige modules downloaden: `pip install --no-cache-dir -r requirements.txt --upgrade`  
+* `python ./visualDartCounter.py`
+
+De calibratie hoeft slechts eenmaal uitgevoerd te worden. Bij een calibratie worden de puntenregio's opgeslagen en terug opgehaald bij het opnieuw opstarten van het script. Enkel wanneer de camera verplaatst wordt, moet men een nieuwe calibratie uitvoeren.
+## Bibliotheken  
+* Opencv-python  
+
+## Documentatie
+Documentatie over OpenCV terug te vinden in [OpenCV.md](opencv.md).
+
+
+## Info dartboard
+Double/Treble ring: 8 mm  
+Bull eye: 12.7 mm  
+Bull (incl Bull eye): 31.8 mm  
+Center - Inside edge Treble: 107 mm  
+Center - Outside edge Double: 170 mm  
+Diameter point area: 340 mm 
+Diameter totale bord: 451 mm  
+  
+Straal point area: 170 mm   
+Straal totale bord: 225 mm  
+  
+20 segmenten: 360°/20 = 18° || 2*PI/20 = PI/10 = 0.31415  
+
+<!---
 ## Planning  
 Start (11-10-2021)  
 ### Week 41-42:  
@@ -36,36 +65,11 @@ Gebruik maken van een effectieve camera. Onderzoeken of 1 camera voldoende is om
 ### Week XX-XX
 - [ ] GUI ontwerpen. 
 - [ ] Verder op punt zetten van de nauwkeurigheid
-
-## Bibliotheken  
-* Opencv-python  
-
-## Documentatie
-Documentatie over OpenCV terug te vinden in [OpenCV.md](opencv.md).
-## Installatie  
-* Virtual environment aanmaken: `python -m venv ./venv`
-* VENV activeren: `.\venv\Scripts\activate`
-* De nodige modules downloaden: `pip install --no-cache-dir -r requirements.txt --upgrade`  
-
-## Info dartboard
-Double/Treble ring: 8 mm  
-Bull eye: 12.7 mm  
-Bull (incl Bull eye): 31.8 mm  
-Center - Inside edge Treble: 107 mm  
-Center - Outside edge Double: 170 mm  
-Diameter point area: 340 mm 
-Diameter totale bord: 451 mm  
-  
-Straal point area: 170 mm   
-Straal totale bord: 225 mm  
-  
-20 segmenten: 360°/20 = 18° || 2*PI/20 = PI/10 = 0.31415  
+- [ ] 
 
 ## Opmerkingen
 * Straal wordt meegegeven vanuit het center van het bord, dus NIET vanuit nulpunt afbeelding.  
---> Aanpassen door coordinaat van Dart te verschuiven
+-> Aanpassen door coordinaat van Dart te verschuiven
 
 * Puntcoordinaten worden WEL bepaald vanuit nulpunt afbeelding
-
-
-(Laatste update: 21/12/'21)
+-->
