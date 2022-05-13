@@ -54,6 +54,8 @@ def distLinePoint(line, point):
     return dist
 
 def cart2pol(x, y):
+    x = np.float64(x)
+    y = np.float64(y)
     rho = np.sqrt(x**2 + y**2)
     phi = np.arctan2(y, x)
     if phi < 0: # 0 < phi < 2pi 
@@ -103,24 +105,20 @@ def twoPointsToOne(point1, point2):
     return x3, y3
 
 def pointInEllipse(point, ellipse):
-    #tests if a point[xp,yp] is within
-    #boundaries defined by the ellipse
-    #of center[x,y], diameter d D, and tilted at angle
-
     x, y = ellipse[0]
     d, D = ellipse[1]
     angle = ellipse[2]
 
     xp, yp = point
 
-    cosa=math.cos(angle)
-    sina=math.sin(angle)
-    dd=d/2*d/2
-    DD=D/2*D/2
+    cosa = math.cos(angle)
+    sina = math.sin(angle)
+    dd = d/2 * d/2
+    DD = D/2 * D/2
 
-    a =math.pow(cosa*(xp-x)+sina*(yp-y),2)
-    b =math.pow(sina*(xp-x)-cosa*(yp-y),2)
-    ellipse=(a/dd)+(b/DD)
+    a = math.pow(cosa*(xp-x)+sina*(yp-y),2)
+    b = math.pow(sina*(xp-x)-cosa*(yp-y),2)
+    ellipse = (a/dd) + (b/DD)
 
     if ellipse <= 1:
         return True
