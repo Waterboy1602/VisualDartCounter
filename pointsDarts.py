@@ -11,10 +11,18 @@ def getPoints(dart, pointArea):
     bull = pointArea["ellipses"][4]
     bulleye = pointArea["ellipses"][5]
 
-    rhoDartOriginBoard, phiDartOriginBoard = cart2pol(dart[0], dart[1])
+
+    dartXCenterOrigin, dartYCenterOrigin = changeOrigin(dart, pointArea["centerBord"])
+    rhoDartOriginBoard, phiDartOriginBoard = cart2pol(dartXCenterOrigin, dartYCenterOrigin)
 
     points = 0
 
+    # print(pointInEllipse(dart, doubleBuiten))
+    # print(pointInEllipse(dart, doubleBinnen))
+    # print(pointInEllipse(dart, trebleBuiten))
+    # print(pointInEllipse(dart, trebleBinnen))
+    # print(pointInEllipse(dart, bull))
+    # print(pointInEllipse(dart, bulleye))
 
     if not pointInEllipse(dart, doubleBuiten):
         pass
@@ -46,10 +54,13 @@ def getPoints(dart, pointArea):
                     points = pointArea["punten"][i]
                     break
             else:
+                x, y = changeOrigin(pointArea["coordinaten"][i], pointArea["centerBord"])
+                pointBorderOriginBoard1 = [x, y]
                 x, y = changeOrigin(pointArea["coordinaten"][0], pointArea["centerBord"])
-                pointBorderOriginBord0 = [x, y]
+                pointBorderOriginBoard2 = [x, y]
+
                 _, phiC = cart2pol(pointBorderOriginBoard1[0], pointBorderOriginBoard1[1])
-                _, phiCC = cart2pol(pointBorderOriginBord0[0], pointBorderOriginBord0[1])
+                _, phiCC = cart2pol(pointBorderOriginBoard2[0], pointBorderOriginBoard2[1])
                 if phiDartOriginBoard <= phiC or phiDartOriginBoard >= phiCC:
                     points = pointArea["punten"][i]
         if double:
