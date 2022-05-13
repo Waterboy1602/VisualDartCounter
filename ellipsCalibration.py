@@ -21,14 +21,8 @@ def ellipsCalibrate(imagePath):
     else:
         originalImage = cv2.imread(imagePath, cv2.IMREAD_COLOR)
     image = originalImage
-    #image = imutils.resize(image, width=imageSize)
     imageSize = image.shape[1] # width
     imgHSV = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-
-    #Afbeelding blur
-    # kernel = np.ones((5, 5), np.float32) / 25
-    # blur = cv2.filter2D(imgHSV, -1, kernel)
-    # h, s, vImg = cv2.split(blur)
     
     blur = cv2.blur(imgHSV, ksize=(5,5))
 
@@ -37,15 +31,9 @@ def ellipsCalibrate(imagePath):
 
     #Afbeelding naar twee waarden converteren
     OTSUThreshVal, threshImg = cv2.threshold(vImg, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-    #OTSUThreshVal, threshImg = cv2.threshold(vImg, 128, 255, cv2.THRESH_BINARY_INV)
 
     # cv2.imshow("thresh", threshImg)
 
-    # kernel = np.ones((5, 5), np.uint8)
-    # thresh2Img = cv2.morphologyEx(threshImg, cv2.MORPH_CLOSE, kernel)
-    # cv2.imshow("thresh2", thresh2Img)
-
-    #edgedImg = cv2.Canny(thresh2Img, OTSUThreshVal, 0.4*OTSUThreshVal)
     edgedImg = cv2.Canny(threshImg, 200, 255)
     # cv2.imshow("canny", edgedImg)
 
@@ -83,39 +71,12 @@ def ellipsCalibrate(imagePath):
         except:
             pass
     
-    print("a: " + str(omtrekBord[1][0]) + "; b: " + str(omtrekBord[1][1]))
-    print("centerEllipse: " + str(omtrekBord[0]))
+    # print("a: " + str(omtrekBord[1][0]) + "; b: " + str(omtrekBord[1][1]))
+    # print("centerEllipse: " + str(omtrekBord[0]))
 
-    # cv2.ellipse(image, omtrekBord, (0, 255, 0), thickness=2, lineType=8)
-    # cv2.circle(image, (int(x), int(y)), 5, (0, 0, 255), thickness=1, lineType=8)
+    cv2.ellipse(image, omtrekBord, (0, 255, 0), thickness=2, lineType=8)
+    cv2.circle(image, (int(x), int(y)), 5, (0, 0, 255), thickness=1, lineType=8)
     # cv2.imshow("ellipse", image)
-
-    # Rechte ellipse
-    # ellipseStraight = [omtrekBord[0], omtrekBord[1], 0]
-    # cv2.ellipse(image, ellipseStraight, (0, 0, 255), cv2.LINE_4)
-
-
-
-    # # Extract ellips out of image
-    # # create a mask image of the same shape as input image, filled with 0s (black color)
-    # mask = np.zeros_like(originalImage)
-    # rows, cols,_ = mask.shape
-    # # create a white filled ellipse
-    # mask=cv2.ellipse(mask, omtrekBord, color=(255,255,255), thickness=-1)
-    # # Bitwise AND operation to black out regions outside the mask
-    # extractEllips = np.bitwise_and(originalImage,mask)
-    # cv2.imshow("Extract ellips", extractEllips)
-
-    # extBlur = cv2.blur(extractEllips, ksize=(5,5))
-    # _, _, extVImg = cv2.split(extBlur)
-    # OTSUThreshVal, extrThreshImg = cv2.threshold(extVImg, 70, 200, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-    # cv2.imshow("thresh extracted", extrThreshImg)
-
-    # extrEdgedImg = cv2.Canny(extrThreshImg, 200, 255)
-    # cv2.imshow("canny extracted", extrEdgedImg)
-    
-
-
 
     lineImage = np.copy(image) * 0  # creating a blank to draw lines on
     # usefullLines, horizAndVertLines = getHoughLines(extrEdgedImg, lineImage, diameter, imageSize, centerEllipse)
@@ -142,16 +103,58 @@ def ellipsCalibrate(imagePath):
         for point in intersectPoints:
             circumference[0].append(point)
             # cv2.circle(image, (int(point[0]), int(point[1])), 1, (0, 0, 255), thickness=4, lineType=8)
-    
+ 
     # Verwijder punten die te dicht bij elkaar liggen
     for index1, point1 in enumerate(circumference[0]):
         for index2, point2 in enumerate(circumference[0]):
-            if(lengthLine(point1, point2) < 40 and not point1 == point2 ):
+            if((lengthLine(point1, point2) < 15 and lengthLine(point1, point2) > 0 )):
+                # print(lengthLine(point1, point2))
                 del circumference[0][index2]
     
     for point in circumference[0]:
         cv2.circle(image, (int(point[0]), int(point[1])), 1, (0, 0, 255), thickness=4, lineType=8)
 
+
+
+    # Sorteer punten op volgorde volgens richting cirkel (tegenrichting)
+    nextIndex = 0
+    pointFrom = [vertLine[0][0], vertLine[0][1]]
+    newCircumference = []
+    dist = float('inf')
+    for i in range(len(circumference[0])):
+        if i == 1: # Met de klok mee
+            for index, pointTo in enumerate(circumference[0]):
+                length = lengthLine(pointFrom, pointTo)
+                if(length < dist and not pointFrom == pointTo and pointFrom[0] <  pointTo[0]):
+                    dist = length
+                    nextIndex = index
+        else: 
+            for index, pointTo in enumerate(circumference[0]):
+                length = lengthLine(pointFrom, pointTo)
+                if(length < dist and not pointFrom == pointTo):
+                    dist = length
+                    nextIndex = index
+        dist = float('inf')
+        pointFrom = circumference[0][nextIndex]
+        newCircumference.append(pointFrom)
+        del circumference[0][nextIndex]
+        
+    
+    circumference[0] = newCircumference
+
+    while(len(circumference[0]) > 20):
+        for i in range(len(circumference[0])-1):
+            # print(lengthLine(point1, point2))
+            if(len(circumference[0])-i > 1):
+                if(lengthLine(circumference[0][i], circumference[0][i+1]) < 25):
+                    del circumference[0][i]
+
+    # lol = originalImage.copy()
+    # for i in range(len(circumference[0])):
+        # cv2.line(lol, (int(centerBoard_X), int(centerBoard_Y)), (int(circumference[0][i][0]), int(circumference[0][i][1])), (0,0,255), 2)
+        # cv2.imshow("LOL", lol)
+        # cv2.waitKey(0)  
+        # cv2.destroyAllWindows()
         
     # Bepaal overige punten
     # pointSegmentRadius = [160, 100, 90, 15.9, 6.35]
@@ -175,13 +178,15 @@ def ellipsCalibrate(imagePath):
     # Vind overige ellipsen
     pointEllipses = []
     pointEllipses.append(omtrekBord)
-    for pointsSegment in circumference:
+    for pointsSegment in circumference[1:]:
         ellipse = cv2.fitEllipse(np.int32(pointsSegment))
         pointEllipses.append(ellipse)
         cv2.ellipse(image, ellipse, (0, 255, 0), thickness=2, lineType=8)
     cv2.imshow("newEllipse", image)
 
-    pointArea = getPointArea(circumference, pointEllipses, (centerBoard_X, centerBoard_Y))
+
+    pointLinesImg = originalImage.copy()
+    pointArea = getPointArea(circumference, pointEllipses, (centerBoard_X, centerBoard_Y), pointLinesImg)
        
     cv2.waitKey(0)  
     cv2.destroyAllWindows()
@@ -260,31 +265,18 @@ def getHoughLinesP(cannyImg, lineImage, diameter, imageSize, centerEllipse):
     return usefullLines, horizAndVertLines
 
     
-def getPointArea(circumference, pointEllipses, centerBord): 
-    # puntVak = {}
+def getPointArea(circumference, pointEllipses, centerBord, image): 
+    puntVak = []
 
-    # puntVak[10] = circumference[0][0]
-    # puntVak[15] = circumference[0][1]
-    # puntVak[2] = circumference[0][2]
-    # puntVak[17] = circumference[0][3]
-    # puntVak[3] = circumference[0][4]
-    # puntVak[19] = circumference[0][5]
-    # puntVak[7] = circumference[0][6]
-    # puntVak[16] = circumference[0][7]
-    # puntVak[8] = circumference[0][8]
-    # puntVak[11] = circumference[0][9]
-    # puntVak[14] = circumference[0][10]
-    # puntVak[9] = circumference[0][11]
-    # puntVak[12] = circumference[0][12]
-    # puntVak[5] = circumference[0][13]
-    # puntVak[20] = circumference[0][14]
-    # puntVak[1] = circumference[0][15]
-    # puntVak[18] = circumference[0][16]
-    # puntVak[4] = circumference[0][17]
-    # puntVak[13] = circumference[0][18]
-    # puntVak[6] = circumference[0][19]      
+    for index in range(20):
+        puntVak.append(circumference[0][index])
 
-    punten = [10, 15, 2, 17, 3, 19, 7, 16, 8, 11, 14, 9, 12, 5, 20, 1, 18, 4, 13, 6]
+    punten = [1, 18, 4, 13, 6, 10, 15, 2, 17, 3, 19, 7, 16, 8, 11, 14, 9, 12, 5, 20]
+    # punten= [12, 2, 16, 4, 1, 20, 7, 19, 18, 9, 5, 8, 13, 3, 17, 6, 15, 10, 11, 14]
+    for index, value in enumerate(puntVak):
+            # print(punten[index])
+            cv2.line(image, (int(centerBord[0]), int(centerBord[1])), (int(value[0]), int(value[1])), (0,0,255), 2)
+            cv2.imshow("Calibratie", image)
 
     pointArea = {"ellipses":pointEllipses, "punten":punten, "coordinaten":circumference[0], "centerBord":centerBord}
     return pointArea
