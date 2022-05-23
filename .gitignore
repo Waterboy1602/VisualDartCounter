@@ -143,3 +143,5 @@ venv/
 # pickle-files
 pointArea
 
+# End Visuals
+/endVisuals
